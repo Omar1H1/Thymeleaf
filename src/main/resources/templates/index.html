@@ -1,1 +1,27 @@
-<div><p> Hello <span th:text="${name}">User</span></p></div>
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Thymeleaf Form handling Demo</title>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body class="container">
+<div class="jumbotron text-center" th:object="${user}">
+    <h1 class="display-4">Welcome!</h1>
+    <p class="lead">Hello <span th:text="${user.firstname}">User</span>!</p>
+    <hr class="my-4">
+    <p>This is a sample welcome page using Thymeleaf and Bootstrap.</p>
+    <div class="btn-group" role="group">
+        <a th:href="@{/admin}"
+           th:class="${#strings.equals(user.role, 'GigaChad')} ? 'btn btn-primary' : 'btn btn-primary disabled'"
+           th:text="${#strings.equals(user.role, 'GigaChad')} ? 'Admin' : 'Admin (Access Denied)'">Admin</a>
+        <a th:href="@{/logout}" class="btn btn-secondary">Logout</a>
+    </div>
+</div>
+</body>
+</html>

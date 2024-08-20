@@ -27,7 +27,7 @@ public class HelloWorldController {
         if (httpSession.getAttribute("useremail") != null) {
             User user = repository.findByEmail(httpSession.getAttribute("useremail").toString())
                     .orElseThrow(() -> new RuntimeException("User not found"));
-            model.addAttribute("name", user.getFirstname());
+            model.addAttribute("user", user);
 
             return "index";
         }
@@ -36,8 +36,10 @@ public class HelloWorldController {
     }
 
     @GetMapping("/admin")
-    public String login(Model model) {
+    public String login(Model model, User userInfo) {
 
+        model.addAttribute("userInfo", userInfo);
+        
         if (httpSession.getAttribute("useremail") != null) {
             Optional<User> user = repository.findByEmail(httpSession.getAttribute("useremail").toString());
             if (user.isEmpty()) {
@@ -49,7 +51,7 @@ public class HelloWorldController {
 
                 return "admin";
             } else {
-                return "redirect:/login/";
+                return "redirect:/NotFound/";
             }
         }
 
@@ -61,5 +63,28 @@ public class HelloWorldController {
         User user = repository.save(userInfo);
         return "signup";
     }
+
+    @GetMapping("/NotFound/")
+    public String notFound() {
+        return "NotFound";
+    }
+
+    @GetMapping("/*")
+    public String anypath() {
+        return "NotFound";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login/";
+    }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(@ModelAttribute("userInfo") User userInfo) {
+        repository.deleteById(userInfo.getId());
+        return "redirect:/admin";
+    }
+
 
 }

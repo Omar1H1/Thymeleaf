@@ -26,5 +26,16 @@
         <td th:text="${user.lastname}"></td>
     </tr>
 </table>
+
+<form method="post" th:action="@{/deleteUser}" th:object="${userInfo}" class="mx-auto">
+    <div class="col mx-auto">
+        <p>Want to delete a user &#x1F608 </p>
+        <p>You can just put his Id and pow! &#x1F44A he's gone !!</p>
+        <label for="id">Id</label>
+        <input id="id" th:field="*{id}">
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </div>
+</form>
+
 </body>
 </html>
